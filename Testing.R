@@ -27,8 +27,14 @@ sd(x)
 # Distribuicao Binomial
 dbinom(x, size = , prob = )
 
-# Cumulative probability function for binomial distribution
+# Cumulative probability function for Binomial distribution
 pbinom(x, size = , prob = )
+
+# Distribuicao Poisson
+dpois(x, lambda = )
+
+# Cumulative function for Poisson distribution
+ppois(x, lambda = )
 
 # Distribuicao Normal
 
