@@ -31,12 +31,14 @@ dbinom(x, size = , prob = )
 pbinom(x, size = , prob = )
 
 # Distribuicao Poisson
+# obs: lambda é a frequencia de ocorrencias.
 dpois(x, lambda = )
 
 # Cumulative function for Poisson distribution
 ppois(x, lambda = )
 
 # Distribuicao Normal
+# obs: o desvio padrao é a raiz quadrada da variancia
 
 # Exemplo: Seja um distribuicao normal com media 220 e variancia 16, calcule:
 
