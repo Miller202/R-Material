@@ -55,3 +55,13 @@ pnorm(225,220,4)
 
 # P(0.8 < X < 1.23)
 pnorm(1.23) - pnorm(0.8)
+
+# Exemplo 3: Distribuiçao normal com media de 170cm e variancia de 36cm(dp = 6)
+
+# probabilidade de altura maior que 1,79m
+1 - pnorm(179, 170, 6)
+
+#ou
+
+# calculando Z = (179 - 170)/6 = 1,5
+1 - pnorm(1.5)
