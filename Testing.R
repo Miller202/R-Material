@@ -23,6 +23,7 @@ Pm2m
 var(x)
 
 # Desvio padrao
+# fórmula de desvio padrao: sd = sqrt(n * p * (1 - p))
 sd(x)
 
 
