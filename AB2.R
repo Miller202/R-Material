@@ -127,4 +127,69 @@ cat("(", p - erro, ",", p + erro, ")")
 
 
 
-### TESTES DE HIPÓTESE...
+### TESTES DE HIPÓTESE
+
+
+
+
+## Testes BILATERAIS
+
+# Exemplo:
+# De uma população normal com variância 36, tira-se uma amostra aleatória de tamanho 16,
+# obtendo-se uma média de 43. Ao nível de significância de 10%, testar as hipóteses:
+
+# Hipóteses: H0 : u = 45, H1 : u != 45.
+
+n = 16; media = 43; mu = 45; desvio = 6;
+
+# como alfa(RR) = 0.10, RNR = 90%, sendo [5%, 90%, 5%] o intervalo bilateral.
+
+Zalfa = qnorm(0.05) # valores críticos
+Zalfa
+#output: -1.644854, então, -1,64 < RNR < 1,64.
+
+Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
+Zcalc
+#output: -1.333333
+
+# Como Zcalc pertence ao intervalo RNR, não há indícios para rejeitar h0, ou seja,
+# a média é de 45, com 10% de risco.
+
+
+
+
+## Testes unilaterais à ESQUERDA
+
+# Exemplo:
+# Uma fábrica anuncia que o índice de nicotina dos cigarros da marca X é inferior a 26 mg
+# por cigarro. Um laboratório realiza 10 análises do índice e obtém: 26; 24; 23; 22; 
+# 28; 25; 27; 26; 28 e 24. Sabe-se que o índice de nicotina dos cigarros da marca X 
+# se distribui normalmente com variância 5,36mg. Pode-se aceitar a afirmação
+# do fabricante, ao nível de significância de 5%?
+
+# h0: u = 26, h1: u < 26.
+
+amostra <- c(26, 24, 23, 22, 28, 25, 27, 26, 28, 24)
+
+n = length(amostra); media = mean(amostra); mu = 26; desvio = sqrt(5.36);
+
+# como alfa(RR) = 0.05, RNR = 95%, sendo [5%, 95%] o intervalo unilateral à esquerda
+
+Zalfa = qnorm(0.05) # valor crítico
+Zalfa
+#output: -1.644854, então RNR > -1,64.
+
+Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
+Zcalc
+#output: -0.9561271
+
+# Como Zcalc pertence ao intervalo RNR, Não há indícios para se rejeitar h0 ao nível 
+# de 5% e concluímos que a afirmação do fabricante é falsa
+
+
+
+
+## Testes unilaterais à DIREITA
+
+# Exemplo:
+
