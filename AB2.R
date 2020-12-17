@@ -142,17 +142,17 @@ cat("(", p - erro, ",", p + erro, ")")
 
 n = 16; media = 43; mu = 45; desvio = 6;
 
-# como alfa(RR) = 0.10, RNR = 90%, sendo [5%, 90%, 5%] o intervalo bilateral.
+# como alfa(RC) = 0.10, RNC = 90%, sendo [5%, 90%, 5%] o intervalo bilateral.
 
 Zalfa = qnorm(0.05) # valores críticos
 Zalfa
-#output: -1.644854, então, -1,64 < RNR < 1,64.
+#output: -1.644854, então, -1,64 < RNC < 1,64.
 
 Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
 Zcalc
 #output: -1.333333
 
-# Como Zcalc pertence ao intervalo RNR, não há indícios para rejeitar h0, ou seja,
+# Como Zcalc pertence ao intervalo RNC, não há indícios para rejeitar h0, ou seja,
 # a média é de 45, com 10% de risco.
 
 
@@ -173,17 +173,17 @@ amostra <- c(26, 24, 23, 22, 28, 25, 27, 26, 28, 24)
 
 n = length(amostra); media = mean(amostra); mu = 26; desvio = sqrt(5.36);
 
-# como alfa = 0.05, RNR = 95%, sendo [5%, 95%] o intervalo unilateral à esquerda
+# como alfa = 0.05, RNC = 95%, sendo [5%, 95%] o intervalo unilateral à esquerda
 
 Zalfa = qnorm(0.05) # valor crítico
 Zalfa
-#output: -1.644854, então RNR > -1,64.
+#output: -1.644854, então RNC > -1,64.
 
 Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
 Zcalc
 #output: -0.9561271
 
-# Como Zcalc pertence ao intervalo RNR, Não há indícios para se rejeitar h0 ao nível 
+# Como Zcalc pertence ao intervalo RNC, Não há indícios para se rejeitar h0 ao nível 
 # de 5% e concluímos que a afirmação do fabricante é falsa.
 
 
@@ -202,20 +202,139 @@ Zcalc
 
 n = 30; media = 210; mu = 206; desvio = 12;
 
-# como alfa = 0.10, RNR = 90%, sendo [90%, 10%] o intervalo unilateral à DIREITA
+# como alfa = 0.10, RNC = 90%, sendo [90%, 10%] o intervalo unilateral à DIREITA
 
 Zalfa = qnorm(0.1) # valor crítico
 -Zalfa
-#output: 1.281552, então RNR < 1.28.
+#output: 1.281552, então RNC < 1.28.
 
 Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
 Zcalc
 #output: 1.825742
 
-# Como Zcalc > Zalfa, Zcalc está fora do intervalo, então rejeita-se h0, ou seja,
+# Como Zcalc > Zalfa, Zcalc está fora do intervalo RNC, então rejeita-se h0, ou seja,
 # o fabricante pode concluir que a resistência média de suas lajotas aumentou.
 
 
 
 
-##
+## Testes de hipótese para a Média com Variância DESCONHECIDA
+
+
+## não utilizei a tabela t de student, fiz pelo padrão Z.
+
+
+# Exemplo 1:
+# Os registros dos últimos anos de um colégio atestam para os calouros admitidos uma nota
+# média 115 (teste vocacional). Para testar a hipótese de que a média de uma nova turma é
+# a mesma das turmas anteriores, retirou-se uma amostra de 20 notas, obtendo-se média 118
+# e desvio padrão 20. Admita um nível de significância de 5% para efetuar o teste.
+
+# h0: u = 115, h1: u != 115.
+
+n = 20; media = 118; mu = 115; desvio = 20;
+
+# Alfa = 0.05, RNC = 95%, sendo [2.5%, 95%, 2.5%] o intervalo bilateral
+
+Zalfa = qnorm(0.025) # valor crítico
+Zalfa
+#output: -1.959964, então -1,96 < RNC < 1,96.
+
+Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
+Zcalc
+#output: 0.6708204
+
+# Como Zcalc está dentro do intervalo RNC, ou seja, fora da região crítica, rejeitamos
+# h1 e aceitamos h0, pois ao nível de 5% não há indícios de alteração na média.
+
+
+
+# Exemplo 2:
+# Deseja-se investigar se uma certa moléstia que ataca o rim altera o consumo de oxigênio
+# desse órgão. Para indivíduos sadios, admite-se que esse consumo tem distribuição Normal
+# com média 12cm3/min. Os valores medidos em cinco pacientes com a moléstia foram: 14,4;
+# 12,9; 15,0; 13,7 e 13,5. Qual seria a conclusão, ao nível de 1% de significância?
+
+# h0: u = 12, h1: u != 12
+
+x <- c(14.4, 12.9, 15, 13.7, 13.5)
+n = length(x); media = mean(x); mu = 12; desvio = sd(x)
+
+# alfa = 0.01, RNC = 99%, sendo [0.5%, 99%, 0.5%] o intervalo bilateral
+
+Zalfa = qnorm(0.005) # valor crítico
+Zalfa
+#output: -2.575829, então -2,57 < RNC < 2,57.
+
+Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
+Zcalc
+#output: 5.209881
+
+# Como Zcalc > 2,57, está fora do intervalo RNC, então, rejeitamos a h0 e aceitamos h1,
+# ou seja, indivíduos portadores da moléstia têm média alterada.
+
+t.test(x, conf = 0.99) # pegar intervalo de confiança
+
+
+
+# Exemplo 3:
+# h0: u = 127, h1: u != 127
+
+x <- c(125, 124, 125, 125, 125, 125, 124, 123, 122, 123, 123,
+       123, 123, 124, 124)
+n = length(x); media = mean(x); mu = 127; desvio = sd(x)
+
+# alfa = 0.05, RNC = 95%, sendo [0.025%, 99%, 0.025%] o intervalo bilateral
+
+Zalfa = qnorm(0.025) # valor crítico
+Zalfa
+#output: -1.959964, então -1,96 < RNC < 1,96.
+
+Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
+Zcalc
+#output: -12.2526
+
+# Zcalc < Zalfa, está fora do intervalo RNC, então rejeitamos a hipótese nula,
+# aceitamos h1, ou seja, a tensão é diferente de 127 V.
+
+
+
+
+## P-VALUE (valor da probabilidade) ou nível descritivo do teste...
+
+
+
+
+## Teste de Hipótese para PROPORÇÃO...
+
+
+
+
+## Teste de Hipótese para DUAS MÉDIAS...
+
+
+
+
+## Teste para comparação de DUAS VARIANCIAS...
+
+
+
+
+## Teste para igualdade de duas Proporções
+
+# Exemplo:
+# Em um estudo de 200 mulheres adultas selecionadas aleatoriamente e 250 homens adultos,
+# ambos usuários de internet, 30% das mulheres e 38% dos homens disseram que planejam 
+# comprar online ao menos uma vez no mês seguinte. Ao nível de significância de 10%, 
+# testar a afirmação de que há uma diferença entre a proporção de homens e mulheres,
+# usuários de internet, que planejam comprar online.
+
+m = 0.30 * 200
+h = 0.38 * 250
+
+prop.test(x = c(m, h), n = c(200, 250), conf.level = 0.90)
+
+# Ao nível de 10%, como o p-value(0.09397) é menor que 0.10, rejeita-se h0, pois há
+# evidências que haja diferença entre a proporção de homens e a proporção de mulheres
+# usuários de internet.
+
