@@ -173,7 +173,7 @@ amostra <- c(26, 24, 23, 22, 28, 25, 27, 26, 28, 24)
 
 n = length(amostra); media = mean(amostra); mu = 26; desvio = sqrt(5.36);
 
-# como alfa(RR) = 0.05, RNR = 95%, sendo [5%, 95%] o intervalo unilateral à esquerda
+# como alfa = 0.05, RNR = 95%, sendo [5%, 95%] o intervalo unilateral à esquerda
 
 Zalfa = qnorm(0.05) # valor crítico
 Zalfa
@@ -184,7 +184,7 @@ Zcalc
 #output: -0.9561271
 
 # Como Zcalc pertence ao intervalo RNR, Não há indícios para se rejeitar h0 ao nível 
-# de 5% e concluímos que a afirmação do fabricante é falsa
+# de 5% e concluímos que a afirmação do fabricante é falsa.
 
 
 
@@ -192,4 +192,30 @@ Zcalc
 ## Testes unilaterais à DIREITA
 
 # Exemplo:
+# Um fabricante de lajotas de cerâmica introduz um novo material em sua fabricação para
+# aumentar a resistência média, que é de 206 Kg. A resistência das lajotas tem 
+# distribuição normal, com desvio padrão de 12 Kg. Retira-se uma amostra de 30 lajotas,
+# obtendo-se x = 210 Kg. Ao nível de significância de 10%, pode o fabricante afirmar que a resistência
+# média de suas lajotas tenha aumentado?
 
+# h0: u = 206, h1: u > 206.
+
+n = 30; media = 210; mu = 206; desvio = 12;
+
+# como alfa = 0.10, RNR = 90%, sendo [90%, 10%] o intervalo unilateral à DIREITA
+
+Zalfa = qnorm(0.1) # valor crítico
+-Zalfa
+#output: 1.281552, então RNR < 1.28.
+
+Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
+Zcalc
+#output: 1.825742
+
+# Como Zcalc > Zalfa, Zcalc está fora do intervalo, então rejeita-se h0, ou seja,
+# o fabricante pode concluir que a resistência média de suas lajotas aumentou.
+
+
+
+
+##
