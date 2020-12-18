@@ -406,8 +406,8 @@ alfa = 0.05
 Zalfa = qnorm(0.025) # teste bilateral, então [2.5%, 95%, 2.5%];
 Zalfa #output: -1.959964, intervalo -1.96 < RNC < 1.96.
 
-Zobs = ((media1 - media2) - 0) / ((sqrt(ds1 * ds1 / n1)) + (sqrt(ds2 * ds2 / n2)))
-Zobs #output: -0.7299167
+Zobs = ((media1 - media2) - 0) / sqrt((ds1 * ds1 / n1) + (ds2 * ds2 / n2))
+Zobs #output: -1.031721
 
 # como Zobs está dentro do intervalo RNC de -1.96 a 1.96, aceitamos h0 e rejeita-se h1,
 # ou seja, não há evidências de que haja diferença entre a divida média dos homens e a
@@ -418,8 +418,34 @@ Zobs #output: -0.7299167
 
 ## Teste para comparação de DUAS VARIANCIAS...
 
-# Exemplo:
-# ...
+# Exemplo 1:
+# Em um estudo, foram coletados dados das tensões máximas suportadas (MPa) em dois 
+# tipos de madeiras da região do Sudoeste do Paraná: Itaúba e Cedrinho. Os valores 
+# estão apresentados com objetivo de verificar se as variâncias dos dois grupos são 
+# homogêneas ou não, ao nível 5% de significância.
+
+# h0: ds1 = ds2, h1: ds1 != ds2.
+
+x <- c(54.07, 45.92, 44.10, 39.36, 38.46, 40.20, 40.93, 45.24)
+y <- c(40.42, 32.64, 45.67, 41.62, 45.08, 34.73, 32.58, 38.96)
+
+ds1 = sd(x); ds2 = sd(y); media1 = mean(x); media2 = mean(y);
+var1 = ds1 * ds1 #output: 25.85646
+var2 = ds2 * ds2 #output: 27.17505
+
+# utilizando a tabela F, com significância alfa/2 = 0.025, temos F(2.5%, 7, 7) = 4,99.
+
+Fcalc = var2 / var1 #output: 1.051
+
+# como Fcalc está dentro do intervalo RNC de -4,99 a 4,99, aceitamos h0 e rejeitamos h1.
+
+
+# Exemplo 2: repetição do exemplo 1 porém utilizando a função var.test.
+
+var.test(y, x)
+#o output retorna um valor F correspondente ao Fcalc = 1.051.
+# Temos a mesma conclusão, Fcalc < Falfa.
+
 
 
 
@@ -445,6 +471,30 @@ prop.test(x = c(m, h), n = c(200, 250), conf.level = 0.90)
 
 
 ## ANÁLISE DE VARIÂNCIA
+
+# Exemplo:
+# Foram selecionados vários automóveis de 3 modelos diferentes e neles colocados a mesma
+# quantidade de gasolina. Existe diferença entre a distância média percorrida pelos 
+# diferentes tipos de automóveis? Faça o teste com nível de significância de 0,05?
+
+Kmcarros <- data.frame(KM = c(254, 263, 241, 237, 251, 234, 218, 235, 227, 216, 
+                              200, 222, 197, 206, 204), 
+                       Modelos = c("Modelo1", "Modelo1", "Modelo1", "Modelo1",
+                                   "Modelo1", "Modelo2", "Modelo2", "Modelo2",
+                                   "Modelo2", "Modelo2", "Modelo3", "Modelo3",
+                                   "Modelo3", "Modelo3", "Modelo3"))
+
+result = aov(Kmcarros$KM ~ factor(Kmcarros$Modelos))
+anova(result) # a partir do output, temos que F = 25.276.
+# como temos df 2 e 12, buscando na tabela F encontraremos Fcrit = 3.89
+
+# F > Fcrit, então rejeitamos h0 para alfa = 0.05, ou seja, há evidência de que
+# pelo menos uma das médias u é diferente das outras.
+
+TukeyHSD(result) # comparações múltiplas 
+
+# Como todo p-adj < 0.05, temos evidência de diferenças de consumo entre 
+# os três modelos de automóveis.
 
 
 
