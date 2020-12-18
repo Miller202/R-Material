@@ -220,10 +220,6 @@ Zcalc
 
 ## Testes de hipótese para a Média com Variância DESCONHECIDA
 
-
-## não utilizei a tabela t de student, fiz pelo padrão Z.
-
-
 # Exemplo 1:
 # Os registros dos últimos anos de um colégio atestam para os calouros admitidos uma nota
 # média 115 (teste vocacional). Para testar a hipótese de que a média de uma nova turma é
@@ -232,19 +228,19 @@ Zcalc
 
 # h0: u = 115, h1: u != 115.
 
-n = 20; media = 118; mu = 115; desvio = 20;
+n = 20; media = 118; mu = 115; desvio = 20; alfa = 0.05;
 
 # Alfa = 0.05, RNC = 95%, sendo [2.5%, 95%, 2.5%] o intervalo bilateral
 
-Zalfa = qnorm(0.025) # valor crítico
-Zalfa
-#output: -1.959964, então -1,96 < RNC < 1,96.
+T_alfa = qt(1 - alfa/2, df = n - 1) # valor crítico
+T_alfa
+#output: 2.093024, então -2.093024 < RNC < 2.093024.
 
-Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
-Zcalc
+T_calc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
+T_calc
 #output: 0.6708204
 
-# Como Zcalc está dentro do intervalo RNC, ou seja, fora da região crítica, rejeitamos
+# Como T_calc está dentro do intervalo RNC, ou seja, fora da região crítica, rejeitamos
 # h1 e aceitamos h0, pois ao nível de 5% não há indícios de alteração na média.
 
 
@@ -258,19 +254,19 @@ Zcalc
 # h0: u = 12, h1: u != 12
 
 x <- c(14.4, 12.9, 15, 13.7, 13.5)
-n = length(x); media = mean(x); mu = 12; desvio = sd(x)
+n = length(x); media = mean(x); mu = 12; desvio = sd(x); alfa = 0.01;
 
 # alfa = 0.01, RNC = 99%, sendo [0.5%, 99%, 0.5%] o intervalo bilateral
 
-Zalfa = qnorm(0.005) # valor crítico
-Zalfa
-#output: -2.575829, então -2,57 < RNC < 2,57.
+T_alfa = qt(1 - alfa/2, df = n - 1) # valor crítico
+T_alfa
+#output: 4.604095, então -4.604095 < RNC < 4.604095.
 
-Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
-Zcalc
+T_calc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
+T_calc
 #output: 5.209881
 
-# Como Zcalc > 2,57, está fora do intervalo RNC, então, rejeitamos a h0 e aceitamos h1,
+# Como T_calc > T_alfa, está fora do intervalo RNC, então, rejeitamos a h0 e aceitamos h1,
 # ou seja, indivíduos portadores da moléstia têm média alterada.
 
 t.test(x, conf = 0.99) # pegar intervalo de confiança
@@ -282,20 +278,20 @@ t.test(x, conf = 0.99) # pegar intervalo de confiança
 
 x <- c(125, 124, 125, 125, 125, 125, 124, 123, 122, 123, 123,
        123, 123, 124, 124)
-n = length(x); media = mean(x); mu = 127; desvio = sd(x)
+n = length(x); media = mean(x); mu = 127; desvio = sd(x); alfa = 0.05;
 
 # alfa = 0.05, RNC = 95%, sendo [0.025%, 99%, 0.025%] o intervalo bilateral
 
-Zalfa = qnorm(0.025) # valor crítico
-Zalfa
-#output: -1.959964, então -1,96 < RNC < 1,96.
+T_alfa = qt(1 - alfa/2, df = n - 1) # valor crítico
+T_alfa
+#output: 2.144787, então -2.144787 < RNC < 2.144787.
 
-Zcalc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
-Zcalc
+T_calc = (media - mu) / (desvio / sqrt(n)) # teste estatístico
+T_calc
 #output: -12.2526
 
-# Zcalc < Zalfa, está fora do intervalo RNC, então rejeitamos a hipótese nula,
-# aceitamos h1, ou seja, a tensão é diferente de 127 V.
+# T_calc está fora do intervalo RNC de -2.144787 a 2.144787, então rejeitamos a hipótese
+# nula h0 e aceitamos h1, ou seja, a tensão é diferente de 127 V.
 
 
 
@@ -361,7 +357,7 @@ x <- c(10.47, 19.85, 21.25, 24.36, 27.38,
        28.09, 33.61, 35.73, 38.33, 49.14)
 y <- c(2.43, 5.12, 6.88, 6.22, 8.84,
        8.76, 7.54, 8.47, 9.55, 11.43)
-n = length(x)
+n = length(x); alfa = 0.05;
 
 # encontrar o nível de correlação:
 r = cor(x, y) #output: 0.9206232 -- fortíssima
@@ -370,10 +366,11 @@ r = cor(x, y) #output: 0.9206232 -- fortíssima
 # utilizaremos a tabela t de student, para o risco de 5%, temos o seguinte:
 # h0: p = 0, h1: p!= 0; buscar na tabela t, para amostra de n - 2 e 5% bilateral.
 
-t_tabela = 2.3060 # valor encontrado na tabela t
-t_calc = (r * sqrt(n - 2)) / (sqrt(1 - (r * r))) #output: 6.6689
+t_tabela = qt(1 - alfa/2, df = n - 2) #output: 2.306004
 
-# como t_calc > 2.3060, rejeita-se h0, concluindo, com risco de 5%, que há correlação.
+t_calc = (r * sqrt(n - 2)) / (sqrt(1 - (r * r))) #output: 6.668976
+
+# como t_calc > t_tabela, rejeita-se h0, concluindo, com risco de 5%, que há correlação.
 
 
 # Exemplo 2:
@@ -381,15 +378,19 @@ t_calc = (r * sqrt(n - 2)) / (sqrt(1 - (r * r))) #output: 6.6689
 
 x <- c(5, 8, 7, 10, 6, 7, 9, 3, 8, 2)
 y <- c(6, 9, 8, 10, 5, 7, 8, 4, 6, 2)
-n <- length(x)
+n <- length(x); alfa = 0.01;
 
 # encontrar o nível de correlação:
 r = cor(x, y) #output: 0.9112421 -- fortíssima
 
-t_tabela = 3.355 # valor encontrado na tabela t, para o risco de 1%, amostra n - 2.
+# utilizaremos a tabela t de student, para o risco de 1%, temos o seguinte:
+# h0: p = 0, h1: p!= 0; buscar na tabela t, para amostra de n - 2 e 1% bilateral.
+
+t_tabela = qt(1 - alfa/2, df = n - 2) #output: 3.355387
+
 t_calc = (r * sqrt(n - 2)) / (sqrt(1 - (r * r))) #output: 6.25774
 
-# como t_calc > 3.355, rejeita-se h0, concluindo, com risco de 1%, que há correlação.
+# como t_calc > t_tabela, rejeita-se h0, concluindo, com risco de 1%, que há correlação.
 
 # OBS: A função cor.test() retorna um valor p que tem por hipótese nula que o
 # coeficiente de correlação é igual a zero na população correspondente.
