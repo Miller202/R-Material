@@ -280,7 +280,7 @@ x <- c(125, 124, 125, 125, 125, 125, 124, 123, 122, 123, 123,
        123, 123, 124, 124)
 n = length(x); media = mean(x); mu = 127; desvio = sd(x); alfa = 0.05;
 
-# alfa = 0.05, RNC = 95%, sendo [0.025%, 99%, 0.025%] o intervalo bilateral
+# alfa = 0.05, RNC = 95%, sendo [2.5%, 95%, 2.5%] o intervalo bilateral
 
 T_alfa = qt(1 - alfa/2, df = n - 1) # valor crítico
 T_alfa
@@ -298,10 +298,58 @@ T_calc
 
 ## P-VALUE (valor da probabilidade) ou nível descritivo do teste...
 
+## rejeitar h0 se p-value <= alfa, aceitar h0 se p-value > alfa
+
+# Exemplo 1:
+# Realizar teste de hipótese, utilizado p-value, para uma população com média $ 2.500
+# e média da amostra $ 2.590, desvio padrão $ 285 e o tamanho da amostra 50. Considere
+# nível de significância de 5%.
+
+# h0: u = 2500, h1: u != 2500
+
+n = 50; media = 2590; mu = 2500; desvio = 285; alfa = 0.05;
+
+# teste bilateral, ou seja, o p-value será o dobro de (1 - pnorm(Z)).
+Zcalc = (media - mu) / (desvio / sqrt(n)) #output: 2.232969 (valor Z)
+Pvalue = 2 * (1 - pnorm(Zcalc)) #output: 0.025551 (p-value)
+
+# como p-value < alfa, rejeitamos h0.
+
+
+# Exemplo 2:
+# Com base em um teste z unilateral a 5% de significância, pôde-se concluir que a
+# média u é maior que 20 uma vez que a estatística z obtida foi de 2,5.
+
+# h0: u = 20, h1: u > 20.
+
+Zcalc = 2.5
+Pvalue = (1 - pnorm(Zcalc)) #output: 0.006209665 (p-value), obs: unilateral.
+
+# como p-value < alfa, rejeitamos h0, ou seja, u pode ser maior que 20.
+
 
 
 
 ## Teste de Hipótese para PROPORÇÃO...
+
+# Exemplo:
+# Um candidato a deputado estadual afirma que terá 60% dos votos dos eleitores de uma
+# cidade. Um instituto de pesquisa colhe uma amostra de 300 eleitores dessa cidade, 
+# encontrando 160 que votarão no candidato. Esse resultado mostra que a afirmação do
+# candidato é verdadeira, ao nível de 5%?
+
+# h0: u = 0.60, h1: u != 0.60
+
+n = 300; x = 160; p = 0.60; p1 = x / n; alfa = 0.05;
+
+Zalfa = qnorm(0.025) #bilateral, portanto, [2.5%, 95%, 2.5%];
+-Zalfa #output: 1.959964, então, intervalo -1.96 < RNC < 1.96.
+
+Zcalc = (p1 - p) / sqrt(p * (1 - p) / n)
+Zcalc #output: -2.357023
+
+# como Zcalc está fora do intervalo RNC de -1.96 a 1.96, rejeitamos h0, ou seja,
+# a afirmação do candidato é falsa a 5% de risco, aceitamos h1.
 
 
 
@@ -309,10 +357,69 @@ T_calc
 ## Teste de Hipótese para DUAS MÉDIAS...
 
 
+# DADOS PAREADOS
+
+# Exemplo:
+# Seja o problema de verificar se um novo algoritmo de busca em um banco de dados é 
+# mais rápido que o algoritmo atualmente usado. Para fazer a comparação dos dois 
+# algoritmos, planeja-se realizar uma amostra aleatória de dez buscas experimentais.
+# Em cada realização, uma dada busca é realizada pelos dois algoritmos e o tempo de 
+# resposta é registrado para ambos os processos. Considerando dez realizações, existe
+# diferença entre as velocidades de busca para os dois algoritmos? Verificar, a um 
+# nível de 5% de significância.
+
+# h0: u1 - u2 = ud = 0, h1: ud != 0.
+
+A <- c(22, 21, 28, 30, 33, 33, 26, 24, 31, 22)
+B <- c(25, 28, 26, 36, 32, 39, 28, 33, 30, 27)
+D <- c(A - B)
+n = length(A); alfa = 0.05;
+
+T_alfa = qt(1 - alfa/2, df = n - 1) # valor crítico
+T_alfa #output: 2.262157, 
+
+t.test(A, B, mu = 0, paired = T, conf.level = 0.95)
+
+T_calc = 2.8246
+
+# como T_calc > T_alfa, rejeitamos h0, Concluímos então que há diferença 
+# na velocidade de busca dos dados dos dois algoritmos.
+
+
+
+
+# AMOSTRAS INDEPENDENTES
+
+# Exemplo (com variâncias populacionais conhecidas):
+# Uma organização de educação de consumidores afirma que há uma diferença entre a 
+# média da divida do cartão de credito de homens e mulheres. Sabe-se, de estudos 
+# anteriores, que o desvio padrão para divida da mulheres é de U$ 750 e, dos homens, 
+# U$ 800. Os resultados de uma pesquisa aleatória de 200 indivíduos de cada grupo 
+# foram: média divida das mulheres U$ 2.290, média da divida dos homens U$ 2.370. 
+# Verifique se, ao nível de 5%, se a afirmação da organização está correta.
+
+# h0: U.h = U.m, h1: U.h != U.m
+
+n1 = 200; n2 = 200; media1 = 2290; media2 = 2370; ds1 = 750; ds2 = 800;
+alfa = 0.05
+
+Zalfa = qnorm(0.025) # teste bilateral, então [2.5%, 95%, 2.5%];
+Zalfa #output: -1.959964, intervalo -1.96 < RNC < 1.96.
+
+Zobs = ((media1 - media2) - 0) / ((sqrt(ds1 * ds1 / n1)) + (sqrt(ds2 * ds2 / n2)))
+Zobs #output: -0.7299167
+
+# como Zobs está dentro do intervalo RNC de -1.96 a 1.96, aceitamos h0 e rejeita-se h1,
+# ou seja, não há evidências de que haja diferença entre a divida média dos homens e a
+# divida média das mulheres.
+
+
 
 
 ## Teste para comparação de DUAS VARIANCIAS...
 
+# Exemplo:
+# ...
 
 
 
