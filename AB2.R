@@ -320,7 +320,7 @@ Zcalc
 
 
 
-## Teste para igualdade de duas Proporções
+## Teste para igualdade de DUAS PROPORÇÕES
 
 # Exemplo:
 # Em um estudo de 200 mulheres adultas selecionadas aleatoriamente e 250 homens adultos,
@@ -337,4 +337,97 @@ prop.test(x = c(m, h), n = c(200, 250), conf.level = 0.90)
 # Ao nível de 10%, como o p-value(0.09397) é menor que 0.10, rejeita-se h0, pois há
 # evidências que haja diferença entre a proporção de homens e a proporção de mulheres
 # usuários de internet.
+
+
+
+
+## ANÁLISE DE VARIÂNCIA
+
+
+
+
+## CORRELAÇÃO LINEAR
+
+# Critérios para verificar o nível da correlação:
+# valor de r / Correlação; 0,0 / nula; 0,0 ---| 0,3 / fraca; 0,3 ---| 0,6 / media;
+# 0,6 ---| 0,9 / forte; 0,9 ---| 0,99 / fortíssima; 1 / perfeita.
+
+
+# Exemplo 1:
+# uma pesquisa pretende verificar se há correlação significativa entre o peso total
+# do lixo descartado, por dia, nos hotéis, com o peso do papel contido nesse lixo.
+
+x <- c(10.47, 19.85, 21.25, 24.36, 27.38,
+       28.09, 33.61, 35.73, 38.33, 49.14)
+y <- c(2.43, 5.12, 6.88, 6.22, 8.84,
+       8.76, 7.54, 8.47, 9.55, 11.43)
+n = length(x)
+
+# encontrar o nível de correlação:
+r = cor(x, y) #output: 0.9206232 -- fortíssima
+
+# teste de hipótese para existência da correlação:
+# utilizaremos a tabela t de student, para o risco de 5%, temos o seguinte:
+# h0: p = 0, h1: p!= 0; buscar na tabela t, para amostra de n - 2 e 5% bilateral.
+
+t_tabela = 2.3060 # valor encontrado na tabela t
+t_calc = (r * sqrt(n - 2)) / (sqrt(1 - (r * r))) #output: 6.6689
+
+# como t_calc > 2.3060, rejeita-se h0, concluindo, com risco de 5%, que há correlação.
+
+
+# Exemplo 2:
+# Calcular r e t para os dados abaixo:
+
+x <- c(5, 8, 7, 10, 6, 7, 9, 3, 8, 2)
+y <- c(6, 9, 8, 10, 5, 7, 8, 4, 6, 2)
+n <- length(x)
+
+# encontrar o nível de correlação:
+r = cor(x, y) #output: 0.9112421 -- fortíssima
+
+t_tabela = 3.355 # valor encontrado na tabela t, para o risco de 1%, amostra n - 2.
+t_calc = (r * sqrt(n - 2)) / (sqrt(1 - (r * r))) #output: 6.25774
+
+# como t_calc > 3.355, rejeita-se h0, concluindo, com risco de 1%, que há correlação.
+
+# OBS: A função cor.test() retorna um valor p que tem por hipótese nula que o
+# coeficiente de correlação é igual a zero na população correspondente.
+cor.test(x, y, method = "pearson")
+
+
+
+
+## REGRESSÃO LINEAR
+
+# A equação da reta da regressão é dada por Y = ax + b; 
+# O coeficiente de determinação "R2" é dado por r * r.
+
+# Exemplo 1:
+# Determinar equação da reta de regressão do primeiro exemplo de correlação.
+
+regressao = lm(y ~ x)
+regressao #output: x = 0.2131, intersept = 1.3836, então: Y = 0.2131x + 1.3836.
+
+
+# Exemplo 2:
+# Determinar o R2 e a equação da reta do segundo exemplo de correlação.
+
+r = 0.9112421; r * r; #output: 0.8303622.
+regressao = lm(y ~ x)
+regressao #output: x = 0.8632, intersept = 0.8889, então Y = 0.8232x + 0.8889.
+
+
+# Exemplo 3:
+# Consumo de cerveja e temperatura. As variáveis foram observadas em nove localidades com
+# as mesmas características demográficas e socioeconômicas.
+
+x <- c(16, 31, 38, 39, 37, 36, 36, 22, 10)
+y <- c(290, 374, 393, 425, 406, 370, 365, 320, 269)
+
+r = cor(x, y); #output: 0.9615505
+R2 = r* r; #output: 0.9245793
+
+regressao = lm(y ~ x)
+regressao #output: x = 4.739, intersept = 217.366, então Y = 4.739x + 217.366.
 
