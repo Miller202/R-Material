@@ -472,7 +472,7 @@ prop.test(x = c(m, h), n = c(200, 250), conf.level = 0.90)
 
 ## ANÁLISE DE VARIÂNCIA
 
-# Exemplo:
+# Exemplo 1:
 # Foram selecionados vários automóveis de 3 modelos diferentes e neles colocados a mesma
 # quantidade de gasolina. Existe diferença entre a distância média percorrida pelos 
 # diferentes tipos de automóveis? Faça o teste com nível de significância de 0,05?
@@ -486,7 +486,7 @@ Kmcarros <- data.frame(KM = c(254, 263, 241, 237, 251, 234, 218, 235, 227, 216,
 
 result = aov(Kmcarros$KM ~ factor(Kmcarros$Modelos))
 anova(result) # a partir do output, temos que F = 25.276.
-# como temos df 2 e 12, buscando na tabela F encontraremos Fcrit = 3.89
+# como temos df 2 e 12, buscando na tabela F para 5% encontraremos Fcrit = 3.89
 
 # F > Fcrit, então rejeitamos h0 para alfa = 0.05, ou seja, há evidência de que
 # pelo menos uma das médias u é diferente das outras.
@@ -495,6 +495,30 @@ TukeyHSD(result) # comparações múltiplas
 
 # Como todo p-adj < 0.05, temos evidência de diferenças de consumo entre 
 # os três modelos de automóveis.
+
+
+# Exemplo 2:
+# Um experimento comparou a resistência à compressão (lb) de quatro tipos diferentes 
+# de caixas. O objetivo é avaliar se a resistência média difere para as quatro caixas 
+# avaliadas, isto é, deseja-se verificar se a variável resposta apresenta diferença na 
+# presença dos diferentes níveis.? Faça o teste com nível de significância de 0.05.
+
+dat <- data.frame(Caixa = c(1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2,
+                            3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4),
+          Resistencia = c(655.5, 788.3, 734.3, 721.4, 679.1, 699.4, 789.2,
+                          772.5, 786.9, 686.1, 732.1, 774.8, 737.1, 639.0,
+                          696.3, 671.7, 717.2, 727.1, 535.1, 628.7, 542.4,
+                          559.0, 586.9, 520.0))
+
+result = aov(dat$Resistencia ~ factor(dat$Caixa))
+anova(result) # a partir do output, temos que F = 25.094.
+# como temos df 3 e 20, buscando na tabela F para 5% encontraremos Fcrit = 3.10
+
+# temos que F > Fcrit, então rejeitamos h0 ao nível de 5% de significância, 
+# ou seja, Há indícios que a resistência média real depende do tipo de caixa. 
+
+TukeyHSD(result) # comparações múltiplas
+# observando os resultados onde p-adj < 0.05, temos que a caixa 4 é a que mais difere.
 
 
 
