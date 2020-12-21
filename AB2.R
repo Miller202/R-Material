@@ -376,14 +376,14 @@ D <- c(A - B)
 n = length(A); alfa = 0.05;
 
 T_alfa = qt(1 - alfa/2, df = n - 1) # valor crítico
-T_alfa #output: 2.262157, 
+T_alfa #output: 2.262157, intervalo de -2.26 a 2.26. 
 
 t.test(A, B, mu = 0, paired = T, conf.level = 0.95)
 
-T_calc = 2.8246
+T_calc = -2.8246
 
-# como T_calc > T_alfa, rejeitamos h0, Concluímos então que há diferença 
-# na velocidade de busca dos dados dos dois algoritmos.
+# como T_calc está fora do intervalo do T_alfa, rejeitamos h0, Concluímos então que 
+# há diferença na velocidade de busca dos dados dos dois algoritmos.
 
 
 
