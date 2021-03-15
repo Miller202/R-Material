@@ -1,5 +1,4 @@
-
-url <- "C://CCEstatística 2020-1/TabelaLivro.csv"
+## R Material
 
 milsa <- read.csv("TabelaLivro.csv", header = TRUE, sep = ";")
  
@@ -12,9 +11,9 @@ civil.tb <- table(milsa$Est.civil)
 # GRAFICO DE Barras
 
 barplot(civil.tb, cex.names=1.5, col=c("green", 
-        "blue"), ylab="Número de Funcionários", 
+        "blue"), ylab="NÃºmero de FuncionÃ¡rios", 
         xlab="Estado civil", cex.axis=1.25,
-        main="Proporção entre casados e solteiros",
+        main="ProporÃ§Ã£o entre casados e solteiros",
         cex.lab=1.25, bty="n", ylim=c(0,25))
 
 # GRAFICO DE PIZZA
@@ -24,7 +23,7 @@ labs<-paste(c("Casados = ", "Solteiros = "),
        digits=2), "%")
 
 pie(civil.tb,labels=labs,col=c("green", "blue"),
-       main="Proporção entre casados e solteiros",
+       main="ProporÃ§Ã£o entre casados e solteiros",
        cex=1.25)
 
 #Plotando legenda no canto superior direito
@@ -35,52 +34,52 @@ legend("topright", pch=15, col=c("green","blue"),
 
 ## Variavel Qualitativa Ordinal 
 
-## Frequência absoluta
+## FrequÃªncia absoluta
 
 inst.tb <- table(milsa$Inst)
 
-## Frequência relativa
+## FrequÃªncia relativa
 prop.table(inst.tb)
 
-## Gráfico de Barras
+## GrÃ¡fico de Barras
 
 barplot(sort(inst.tb,decreasing = FALSE),
         cex.names=1.15, 
         col=c("green", "blue", "red"),
-        ylab="Instrução de Funcionários", 
+        ylab="InstruÃ§Ã£o de FuncionÃ¡rios", 
         xlab="Escolaridade", cex.axis=1.25,
-        main="Escolaridade dos Funcionários",
+        main="Escolaridade dos FuncionÃ¡rios",
         cex.lab=1.25,bty="n", ylim=c(0,20))
 
 barplot(sort(inst.tb,decreasing = TRUE),
         cex.names=1.15, 
         col=c("green", "blue", "red"),
-        ylab="Instrução de Funcionários", 
+        ylab="InstruÃ§Ã£o de FuncionÃ¡rios", 
         xlab="Escolaridade", cex.axis=1.25,
-        main="Escolaridade dos Funcionários",
+        main="Escolaridade dos FuncionÃ¡rios",
         cex.lab=1.25,bty="n", ylim=c(0,20))
 
-## Variável quantitativa discreta
+## VariÃ¡vel quantitativa discreta
 
-## Frequência absoluta
+## FrequÃªncia absoluta
 
 filhos.tb <- table(milsa$Filhos)
 milsa$Filhos
 
 plot(filhos.tb, col =  "green", type = "h",
      lwd = 5, cex.lab=1.2,
-     main = " Frequência Absoluta ",
-     xlab= "Número de filhos",
+     main = " FrequÃªncia Absoluta ",
+     xlab= "NÃºmero de filhos",
      ylab= "Quantidade de Filhos ") 
 
 plot(filhos.tb, type = "S",col = "red",
-     main = "Frequência relativa acumulada",
+     main = "FrequÃªncia relativa acumulada",
      lwd = 5 )
 
-## Frequência relativa
+## FrequÃªncia relativa
 filhos.tbr <- prop.table(filhos.tb)
 
-## Frequência absoluta e relativa acumulada
+## FrequÃªncia absoluta e relativa acumulada
 filhos.tbra <- cumsum(filhos.tbr)
 filhos.tba <- cumsum(filhos.tb)
 
@@ -95,45 +94,45 @@ names(filhos.tb)[which.max(filhos.tb)]
 ## Mediana
 median(milsa$Filhos, na.rm = TRUE)
  
-## Média
+## MÃ©dia
 mean(milsa$Filhos, na.rm = TRUE)
 
 ## Quartis
 quantile(milsa$Filhos, na.rm = TRUE)
 
-## Máximo e mínimo
+## MÃ¡ximo e mÃ­nimo
 max(milsa$Filhos, na.rm = TRUE)
 
 min(milsa$Filhos, na.rm = TRUE)
 
-## As duas informações juntas
+## As duas informaÃ§Ãµes juntas
 range(milsa$Filhos, na.rm = TRUE)
 
-## Amplitude é a diferença entre máximo e mínimo
+## Amplitude Ã© a diferenÃ§a entre mÃ¡ximo e mÃ­nimo
 diff(range(milsa$Filhos, na.rm = TRUE))
 
-## Variância
+## VariÃ¢ncia
 var(milsa$Filhos, na.rm = TRUE)
 
-## Desvio-padrão
+## Desvio-padrÃ£o
 sd(milsa$Filhos, na.rm = TRUE)
 
-## Coeficiente de variação
+## Coeficiente de variaÃ§Ã£o
 sd(milsa$Filhos, na.rm = TRUE)/mean(milsa$Filhos, na.rm = TRUE)
  
 ## Quartis
 (filhos.qt <- quantile(milsa$Filhos, na.rm = TRUE))
 
-## Summary() para resumir os dados de uma só vez
+## Summary() para resumir os dados de uma sÃ³ vez
 summary(milsa$Filhos)
 
-## Variável quantitativa Continua
+## VariÃ¡vel quantitativa Continua
 
 Salario.tb <- (milsa$Salario)
 sort (Salario.tb)
 
 Amplitude <- max (Salario.tb) - min(Salario.tb) ; Amplitude
-NK <-  round( 1 + 3.222 * log10(length(Salario.tb))) ; NK #número de classes
+NK <-  round( 1 + 3.222 * log10(length(Salario.tb))) ; NK #nÃºmero de classes
 AmpClasse <- Amplitude / NK ; AmpClasse ; AmpClasse <- 3.25
 
 limitesclas <- c(4 ,7.25 ,10.50 ,13.75 ,17.00 ,20.25, 23.50)
@@ -161,30 +160,30 @@ lines(c(min(h$breaks), h$mids, max(h$breaks)),
        
 ## Mediana
        median(milsa$Salario)
-## Média
+## MÃ©dia
        mean(milsa$Salario)
        
 ## Quartis
        quantile(milsa$Salario)
        
-## As duas informações juntas
+## As duas informaÃ§Ãµes juntas
        range(milsa$Salario)
        
-## Amplitude é a diferença entre máximo e mínimo
+## Amplitude Ã© a diferenÃ§a entre mÃ¡ximo e mÃ­nimo
        diff(range(milsa$Salario))
        
-## Variância
+## VariÃ¢ncia
        var(milsa$Salario)
-## Desvio-padrão
+## Desvio-padrÃ£o
        sd(milsa$Salario)
        
-## Coeficiente de variação
+## Coeficiente de variaÃ§Ã£o
        sd(milsa$Salario)/mean(milsa$Salario)
        
 ## Quartis
        (Salario.qt <- quantile(milsa$Salario))
        
-## Summary() para resumir os dados de uma só vez
+## Summary() para resumir os dados de uma sÃ³ vez
        summary(milsa$Salario)
 
 par (mfrow = c (1,1))  
@@ -193,27 +192,27 @@ boxplot(milsa$Salario)
 
 boxplot(milsa$Salario,  col = "orange", varwidth = TRUE, notch = TRUE)
 
-## Qualitativa vs quantitativa (variáveis Instrução e Salário)
+## Qualitativa vs quantitativa (variÃ¡veis InstruÃ§Ã£o e SalÃ¡rio)
 ## Quartis de salario
 
 quantile(milsa$Salario)
 
-## Classificação de acordo com os quartis
+## ClassificaÃ§Ã£o de acordo com os quartis
 salario.cut <- cut(milsa$Salario, breaks =  quantile(milsa$Salario),
                    include.lowest = TRUE)
-## Tabela de frequências absolutas
+## Tabela de frequÃªncias absolutas
 inst.sal.tb <- table(milsa$Inst, salario.cut)
 inst.sal.tb
 
-barplot(inst.sal.tb, col=c("yellow","red","orange"), main= "Salário x Instrução",
-        xlab = "Quantiles", ylab = "Frequência  Instrução",
+barplot(inst.sal.tb, col=c("yellow","red","orange"), main= "SalÃ¡rio x InstruÃ§Ã£o",
+        xlab = "Quantiles", ylab = "FrequÃªncia  InstruÃ§Ã£o",
         beside = TRUE, legend = TRUE)
 
 boxplot(Salario ~ Instrucao, data = milsa, col=c("yellow", "red", "orange"))  
 
 prop.table(inst.sal.tb)
 
-## Quantitativa vs Quantitativa (considerar as variáveis Salario e Idade)
+## Quantitativa vs Quantitativa (considerar as variÃ¡veis Salario e Idade)
 
 Anos.cut <- cut(milsa$Anos, breaks = quantile(milsa$Anos),include.lowest = TRUE)
 
@@ -226,7 +225,7 @@ Anos.sal.tb <- table(Anos.cut, salario.cut)
 plot(x = milsa$Anos, y = milsa$Salario)
 plot(Salario ~ Anos, data = milsa)
 
-## Correlação - verificar associação entre variaveis quatitativas
+## CorrelaÃ§Ã£o - verificar associaÃ§Ã£o entre variaveis quatitativas
 
 cor(milsa$Anos, milsa$Salario)
 cor(milsa$Anos, milsa$Salario, method = "kendall")
