@@ -1,7 +1,7 @@
 
 url <- "C://CCEstatística 2020-1/TabelaLivro.csv"
 
-milsa <- read.csv("TabelaLivro.csv", header = TRUE, sep = ";")
+milsa <- read.csv("1-TabelaLivro.csv", header = TRUE, sep = ";")
  
 str(milsa)
 
