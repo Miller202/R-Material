@@ -127,19 +127,41 @@ sd(milsa$Filhos, na.rm = TRUE)/mean(milsa$Filhos, na.rm = TRUE)
 ## Summary() para resumir os dados de uma só vez
 summary(milsa$Filhos)
 
+
 ## Variável quantitativa Continua
 
 Salario.tb <- (milsa$Salario)
 sort (Salario.tb)
 
-Amplitude <- max (Salario.tb) - min(Salario.tb) ; Amplitude
-NK <-  round( 1 + 3.222 * log10(length(Salario.tb))) ; NK #número de classes
+## Amplitude e Número da classes, dividindo encontramos a amplitude da classe
+## A partir da amplitude da classe, podemos gerar nosso agrupamento com base
+## no limite encontrado.
+
+Amplitude <- max (Salario.tb) - min(Salario.tb) 
+Amplitude
+
+NK <-  round( 1 + 3.222 * log10(length(Salario.tb)))
+NK #número de classes
+
 AmpClasse <- Amplitude / NK ; AmpClasse ; AmpClasse <- 3.25
 
 limitesclas <- c(4 ,7.25 ,10.50 ,13.75 ,17.00 ,20.25, 23.50)
 
 classes<-c("04.00-07.25","07.25-10.50","10.50-13.75",
            "13.75-17.00","17.00-20.25", "20.25-23.50")
+
+
+## HISTOGRAMA AGRUPADO
+
+h = hist(Salario.tb, breaks=limitesclas,
+    ylab="Frequencias absolutas",  labels=classes,main="Histograma", 
+    xlim=c(0,25), ylim = c (0,12), col="orange")
+
+lines(c(min(h$breaks), h$mids, max(h$breaks)), 
+       c(0,h$counts, 0), type = "l")
+
+
+## Tabela completa
 
 # Freq - absoluta, FreqAc - absoluta acumulada
 # FreqRel - relativa, FreqRelAc - relativa acumulada
@@ -149,16 +171,10 @@ Freq = table(cut(Salario.tb, breaks = limitesclas, right=FALSE, labels=classes))
 FreqAc <- cumsum(Freq); FreqRel <- prop.table(Freq); FreqRelAc <- cumsum(FreqRel)
 
 TabResul = cbind(Freq,FreqAc, FreqRel = round(FreqRel*100,digits = 2),
-                              FreqRelAc= round(FreqRelAc*100,digits = 2))
+                 FreqRelAc= round(FreqRelAc*100,digits = 2))
 TabResul
 
-h = hist(Salario.tb, breaks=limitesclas,
-    ylab="Frequencias absolutas",  labels=classes,main="Histograma", 
-    xlim=c(4,25), ylim = c (0,12), col="orange")
 
-lines(c(min(h$breaks), h$mids, max(h$breaks)), 
-       c(0,h$counts, 0), type = "l")
-       
 ## Mediana
        median(milsa$Salario)
 ## Média
